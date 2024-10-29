@@ -86,24 +86,15 @@
 <body>
     <div class="container mt-5">
         <h2>Registro de clientes</h2>
-        <form name="usuarios">
-            <div class="form-group">
-                <input type="text" class="form-control" id="txt_nombre" placeholder="Nombre" required>
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="txt_primer_apellido" placeholder="Primer Apellido" required>
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="txt_segundo_apellido" placeholder="Segundo Apellido" required>
-            </div>
-            <div class="form-group">
-                <input type="email" class="form-control" id="txt_email" placeholder="Correo Electrónico" required>
-            </div>
-            <div class="form-group">
-                <input type="password" class="form-control" id="txt_contrasena" placeholder="Contraseña" required>
-            </div>
-            <input type="button" class="btn btn-primary" id="bt_guardar" value="Registrar">
-        </form>
+       <form action="tu_archivo_php.php" method="POST">
+    <input type="text" name="nombre" placeholder="Nombre" required>
+    <input type="text" name="primer_apellido" placeholder="Primer Apellido" required>
+    <input type="text" name="segundo_apellido" placeholder="Segundo Apellido" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="password" name="contrasena" placeholder="Contraseña" required>
+    <input type="submit" value="Registrarse">
+</form>
+
         <br>
         <!-- Botón de Iniciar Sesión, inicialmente oculto -->
         <a href="login.html" class="btn btn-secondary" id="bt_iniciar_sesion" style="display: none;">Iniciar Sesión</a>
