@@ -1,0 +1,16 @@
+CREATE DATABASE usuarios1;
+
+USE usuarios1;
+
+CREATE TABLE usuarios (
+    clave INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    nombre VARCHAR(30) NOT NULL,
+    primer_apellido VARCHAR(30) NOT NULL,
+    segundo_apellido VARCHAR(30) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    contrasena VARCHAR(255) NOT NULL
+);
+
+
+INSERT INTO usuarios (nombre, primer_apellido, segundo_apellido, email, contrasena) 
+VALUES ('Juan', 'Pérez', 'Gómez', 'juan.perez@example.com', 'password123'); 

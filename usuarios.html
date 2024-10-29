@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de clientes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script type="text/javascript">
+        let nombre, primerApellido, segundoApellido, email, contrasena, guardar, conexion, botonLogin;
+
+        window.onload = cargar;
+
+        function cargar() {
+            nombre = document.getElementById("txt_nombre");
+            primerApellido = document.getElementById("txt_primer_apellido");
+            segundoApellido = document.getElementById("txt_segundo_apellido");
+            email = document.getElementById("txt_email");
+            contrasena = document.getElementById("txt_contrasena");
+            guardar = document.getElementById("bt_guardar");
+            botonLogin = document.getElementById("bt_iniciar_sesion"); // Botón de iniciar sesión
+
+            guardar.addEventListener('click', validarDatos);
+        }
+
+        function validarDatos() {
+            if (nombre.value.trim() === "" || primerApellido.value.trim() === "" || segundoApellido.value.trim() === "" || email.value.trim() === "" || contrasena.value.trim() === "") {
+                Swal.fire('Error', 'Todos los campos son obligatorios.', 'error');
+                return;
+            }
+            if (!/^[a-zA-Z\s]*$/.test(nombre.value) || !/^[a-zA-Z\s]*$/.test(primerApellido.value) || !/^[a-zA-Z\s]*$/.test(segundoApellido.value)) {
+                Swal.fire('Error', 'Solo se permiten letras en los campos de nombre y apellidos.', 'error');
+                return;
+            }
+            if (!validateEmail(email.value)) {
+                Swal.fire('Error', 'Por favor, introduce un correo electrónico válido.', 'error');
+                return;
+            }
+            if (contrasena.value.length < 6) {
+                Swal.fire('Error', 'La contraseña debe tener al menos 6 caracteres.', 'error');
+                return;
+            }
+            conexionServidor();
+        }
+
+        function validateEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+
+        function conexionServidor() {
+            let valor_nombre = nombre.value;
+            let valor_primer_apellido = primerApellido.value;
+            let valor_segundo_apellido = segundoApellido.value;
+            let valor_email = email.value;
+            let valor_contrasena = contrasena.value;
+
+            conexion = new XMLHttpRequest();
+            conexion.onreadystatechange = esperaRespuesta;
+            conexion.open("POST", "guardar_datos_usuarios.php", true);
+            conexion.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            conexion.send(`nombre_php=${valor_nombre}&primer_apellido_php=${valor_primer_apellido}&segundo_apellido_php=${valor_segundo_apellido}&email_php=${valor_email}&contrasena_php=${valor_contrasena}`);
+        }
+
+        function esperaRespuesta() {
+            if (conexion.readyState == 4) {
+                Swal.fire('Éxito', conexion.responseText, 'success');
+                limpiarCampos(); // Llamar a la función para limpiar campos
+                mostrarBotonLogin(); // Mostrar el botón de iniciar sesión
+            }
+        }
+
+        function limpiarCampos() {
+            nombre.value = '';
+            primerApellido.value = '';
+            segundoApellido.value = '';
+            email.value = '';
+            contrasena.value = '';
+        }
+
+        function mostrarBotonLogin() {
+            botonLogin.style.display = "block"; // Hacer visible el botón de iniciar sesión
+        }
+    </script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Registro de clientes</h2>
+        <form name="usuarios">
+            <div class="form-group">
+                <input type="text" class="form-control" id="txt_nombre" placeholder="Nombre" required>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="txt_primer_apellido" placeholder="Primer Apellido" required>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="txt_segundo_apellido" placeholder="Segundo Apellido" required>
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" id="txt_email" placeholder="Correo Electrónico" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="txt_contrasena" placeholder="Contraseña" required>
+            </div>
+            <input type="button" class="btn btn-primary" id="bt_guardar" value="Registrar">
+        </form>
+        <br>
+        <!-- Botón de Iniciar Sesión, inicialmente oculto -->
+        <a href="login.html" class="btn btn-secondary" id="bt_iniciar_sesion" style="display: none;">Iniciar Sesión</a>
+        <!-- Botón de Inicio -->
+        <a href="interfaz.html" class="btn btn-info">Inicio</a>
+    </div>
+</body>
+</html>
