@@ -6,12 +6,15 @@
     <title>BARD - Tienda de Ropa</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        /* Estilos globales */
         body {
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: 70px; /* Para evitar solapamiento con el menú */
         }
 
-        /* Estilos del menú */
+        /* Menú de navegación */
         .menu {
             display: flex;
             align-items: center;
@@ -20,11 +23,14 @@
             background-color: #ffffff;
             position: fixed;
             width: 100%;
+            top: 0;
+            left: 0;
             z-index: 1000;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .menu img.logo {
-            height: 40px; /* Ajusta el tamaño del logo aquí */
+            height: 40px;
             transition: transform 0.3s;
         }
 
@@ -36,13 +42,13 @@
             color: white;
             text-decoration: none;
             margin-left: 15px;
+            padding: 5px 10px;
             transition: background-color 0.3s, color 0.3s;
+            border-radius: 5px;
         }
 
         .menu a:hover {
             background-color: #495057;
-            border-radius: 5px;
-            padding: 5px 10px;
         }
 
         /* Estilo de la portada */
@@ -57,52 +63,50 @@
             align-items: flex-end;
             padding: 20px;
             animation: fadeIn 1s ease-in-out;
-            margin-top: 5px; /* Ajuste para evitar solapamiento con el menú */
+            margin-top: 5px;
         }
 
         .cover-photo h1 {
             color: white;
             font-size: 3em;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-            text-align: center; /* Centra el texto */
+            text-align: center;
         }
 
-        /* Texto adicional */
+        /* Texto del pie de página */
         .footer-text {
             text-align: center;
             margin-top: 20px;
             font-size: 1.2em;
-            color: #333; /* Color del texto */
+            color: #333;
         }
 
-        /* Animación */
+        /* Animación de entrada */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
-        }
-
-        /* Espaciado para evitar que el contenido quede oculto detrás del menú */
-        .spacer {
-            height: 70px; /* Altura del menú */
         }
     </style>
 </head>
 <body>
 
+    <!-- Menú de navegación -->
     <div class="menu">
-        <img src="https://i.pinimg.com/564x/2c/01/67/2c01677ccf4d986a24c552f4551bae12.jpg" alt="Logo" class="logo">
+        <a href="#" aria-label="Inicio">
+            <img src="https://i.pinimg.com/564x/2c/01/67/2c01677ccf4d986a24c552f4551bae12.jpg" alt="Logo de BARD" class="logo">
+        </a>
         <div>
-            <a href="usuarios.html" class="btn btn-success">Registrarse</a>
-            <a href="login.html" class="btn btn-primary">Iniciar Sesión</a>
+            <a href="usuarios.html" class="btn btn-success" role="button">Registrarse</a>
+            <a href="login.html" class="btn btn-primary" role="button">Iniciar Sesión</a>
         </div>
     </div>
 
-    <div class="spacer"></div>
-
+    <!-- Foto de portada -->
     <div class="cover-photo">
         <h1>Bienvenido a BARD</h1>
     </div>
 
+    <!-- Pie de página -->
     <div class="footer-text">
         <p>Creada en el año 2024 por Bruno Díaz Valenzuela</p>
     </div>
