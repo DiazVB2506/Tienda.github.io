@@ -1,33 +1,43 @@
 <?php
-// Recoger datos del formulario de manera segura
-$nombre = $_POST['nombre_php'];
-$primer_apellido = $_POST['primer_apellido_php'];
-$segundo_apellido = $_POST['segundo_apellido_php'];
-$email = $_POST['email_php'];
-$contrasena = password_hash($_POST['contrasena_php'], PASSWORD_DEFAULT); // Cifrar la contraseña
-
-// Conectar a la base de datos
-require('conexion1.php');
+// Crear la conexión a la base de datos
+$cn = new mysqli("localhost", "root", "250602", "usuarios1", 3306);
 
 // Verificar si la conexión fue exitosa
-if ($cn->connect_errno) {
-    echo "Fallo la Conexión: " . $cn->connect_error;
-    exit(); // Termina el script si hay un error de conexión
+if ($cn->connect_error) {
+    die("Conexión fallida: " . $cn->connect_error);
 }
+echo "Conexión exitosa.<br>";
 
+// Comprobar si se enviaron datos por POST
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Obtener datos del formulario
+    $nombre = $_POST['nombre'] ?? '';
+    $primer_apellido = $_POST['primer_apellido'] ?? '';
+    $segundo_apellido = $_POST['segundo_apellido'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $contrasena = password_hash($_POST['contrasena'] ?? '', PASSWORD_BCRYPT);
 
-// Preparar la consulta para evitar inyecciones SQL
-$stmt = $cn->prepare("INSERT INTO usuarios (nombre, primer_apellido, segundo_apellido, email, contrasena) VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param("sssss", $nombre, $primer_apellido, $segundo_apellido, $email, $contrasena);
+    // Validar que los campos requeridos no estén vacíos
+    if (!empty($nombre) && !empty($primer_apellido) && !empty($email) && !empty($contrasena)) {
+        // Preparar la consulta de inserción
+        $stmt = $cn->prepare("INSERT INTO usuarios (nombre, primer_apellido, segundo_apellido, email, contrasena) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $nombre, $primer_apellido, $segundo_apellido, $email, $contrasena);
 
-// Ejecutar la consulta
-if ($stmt->execute()) {
-    echo "El registro se guardó correctamente.";
+        // Ejecutar la consulta y verificar si fue exitosa
+        if ($stmt->execute()) {
+            echo "Registro exitoso.";
+        } else {
+            echo "Error al registrar los datos: " . $stmt->error;
+        }
+
+        $stmt->close();
+    } else {
+        echo "Por favor, completa todos los campos obligatorios.";
+    }
 } else {
-    echo "No se guardó el registro: " . $stmt->error;
+    echo "Método no permitido.";
 }
 
-// Cerrar la declaración y la conexión
-$stmt->close();
+// Cerrar la conexión
 $cn->close();
 ?>
